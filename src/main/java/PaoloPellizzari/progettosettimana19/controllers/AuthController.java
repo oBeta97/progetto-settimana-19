@@ -4,6 +4,9 @@ package PaoloPellizzari.progettosettimana19.controllers;
 import PaoloPellizzari.progettosettimana19.entities.User;
 import PaoloPellizzari.progettosettimana19.exceptions.BadRequestException;
 import PaoloPellizzari.progettosettimana19.payloads.NewUserDTO;
+import PaoloPellizzari.progettosettimana19.payloads.UserLoginDTO;
+import PaoloPellizzari.progettosettimana19.payloads.UserLoginResponseDTO;
+import PaoloPellizzari.progettosettimana19.services.AuthService;
 import PaoloPellizzari.progettosettimana19.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,13 @@ public class AuthController {
 
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private AuthService authService;
+
+    @PostMapping("/login")
+    public UserLoginResponseDTO login(@RequestBody UserLoginDTO body) {
+        return new UserLoginResponseDTO(this.authService.checkCredentialsAndGenerateToken(body));
+    }
 
     @PostMapping("/signin")
     @ResponseStatus(HttpStatus.CREATED)

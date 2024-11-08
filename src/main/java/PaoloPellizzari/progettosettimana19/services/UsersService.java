@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,9 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepo;
+
+    @Autowired
+    private PasswordEncoder bcrypt;
 
     public Page<User> getAll (int page, int size, String sortBy){
         if(size > 10) size = 10;
@@ -29,6 +33,9 @@ public class UsersService {
         return this.usersRepo.findById(userId).orElseThrow(() -> new NotFoundException(User.class));
     }
 
+    public User getByEmail(String email){
+        return this.usersRepo.findByEmail(email).orElseThrow(() -> new NotFoundException(User.class));
+    }
 
     public User saveNewUser(NewUserDTO newUserDTO){
         this.usersRepo.findByEmail(newUserDTO.email()).ifPresent(
@@ -39,6 +46,8 @@ public class UsersService {
         );
 
         User newUser = new User(newUserDTO);
+        newUser.setPassword(bcrypt.encode(newUser.getPassword()));
+
         return this.usersRepo.save(newUser);
     }
 
