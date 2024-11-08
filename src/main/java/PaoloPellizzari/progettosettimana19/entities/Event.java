@@ -31,7 +31,7 @@ public class Event {
     private int availableSeats;
 
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "organizer_id")
     private User organizerId;
 

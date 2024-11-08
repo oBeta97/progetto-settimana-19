@@ -26,14 +26,17 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String email;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    public User(String name, String surname, String username, String password) {
+    public User(String name, String surname, String username, String password, String email) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.userRole = UserRole.CUSTOMER;
+        this.email = email;
     }
 }
