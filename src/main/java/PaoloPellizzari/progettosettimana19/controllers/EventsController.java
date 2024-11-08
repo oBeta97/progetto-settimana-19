@@ -9,6 +9,7 @@ import PaoloPellizzari.progettosettimana19.services.EventsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/events")
 public class EventsController {
-
     @Autowired
     private EventsService eventsService;
 
@@ -36,6 +36,7 @@ public class EventsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ENVENT_PLANNER')")
     public Event saveNewEvent(@RequestBody @Validated EventDTO newEventDTO, BindingResult validationResult){
         if (validationResult.hasErrors()) {
             validationResult.getAllErrors().forEach(System.out::println);
@@ -47,6 +48,7 @@ public class EventsController {
 
 
     @PutMapping("/{eventId}")
+    @PreAuthorize("hasAuthority('ENVENT_PLANNER')")
     public Event updateEvent(@PathVariable long eventId, @RequestBody @Validated EventDTO newEventDTO, BindingResult validationResult){
         if (validationResult.hasErrors()) {
             validationResult.getAllErrors().forEach(System.out::println);
@@ -58,6 +60,7 @@ public class EventsController {
 
     @DeleteMapping("/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ENVENT_PLANNER')")
     public void deleteEvent(@PathVariable long eventId){
 
         this.eventsService.deleteEvent(eventId);

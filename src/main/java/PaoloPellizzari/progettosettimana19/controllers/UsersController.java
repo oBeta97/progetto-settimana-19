@@ -8,6 +8,7 @@ import PaoloPellizzari.progettosettimana19.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class UsersController {
     private UsersService usersService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<User> getAllUsers(
                                     @RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size,
@@ -29,11 +31,13 @@ public class UsersController {
     };
 
     @GetMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User getUser (@PathVariable long userId){
         return this.usersService.getById(userId);
     }
 
     @PutMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User updateUser(@PathVariable long userId, @RequestBody @Validated NewUserDTO newUserDTO, BindingResult validationResult){
         if (validationResult.hasErrors()) {
             validationResult.getAllErrors().forEach(System.out::println);
@@ -45,6 +49,7 @@ public class UsersController {
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(@PathVariable long userId){
 
         this.usersService.deleteUser(userId);
