@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "reservation_dt", nullable = false)
-    private LocalDateTime reservationDt;
+    private LocalDate reservationDt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -31,7 +32,7 @@ public class Reservation {
     @JoinColumn(name = "event_id")
     private Event eventId;
 
-    public Reservation(LocalDateTime reservationDt, User userId, Event eventId) {
+    public Reservation(LocalDate reservationDt, User userId, Event eventId) {
         this.reservationDt = reservationDt;
         this.userId = userId;
         this.eventId = eventId;
