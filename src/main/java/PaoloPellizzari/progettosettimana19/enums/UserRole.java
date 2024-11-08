@@ -2,5 +2,6 @@ package PaoloPellizzari.progettosettimana19.enums;
 
 public enum UserRole {
     CUSTOMER,
-    ENVENT_PLANNER
+    ENVENT_PLANNER,
+    ADMIN
 }

@@ -2,6 +2,7 @@ package PaoloPellizzari.progettosettimana19.entities;
 
 
 import PaoloPellizzari.progettosettimana19.enums.UserRole;
+import PaoloPellizzari.progettosettimana19.payloads.NewUserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,4 +40,15 @@ public class User {
         this.userRole = UserRole.CUSTOMER;
         this.email = email;
     }
+
+    public User(NewUserDTO newUserDTO){
+        this.name = newUserDTO.name();
+        this.surname = newUserDTO.surname();
+        this.username = newUserDTO.username();
+        this.password = newUserDTO.password();
+        this.userRole = UserRole.CUSTOMER;
+        this.email = newUserDTO.email();
+    }
+
+
 }

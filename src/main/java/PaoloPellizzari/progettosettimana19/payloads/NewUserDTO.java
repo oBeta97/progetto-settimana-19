@@ -16,7 +16,6 @@ public record NewUserDTO(
         @NotEmpty(message = "Password is mandatory")
         @Size(min = 8, message = "Password needs to be at least 8 character long")
         String password,
-        @NotEmpty(message = "User role is mandatory")
         UserRole userRole,
         @NotEmpty(message = "Email is mandatory")
         @Email(message = "Email not valid")
